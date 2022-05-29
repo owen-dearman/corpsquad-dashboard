@@ -1,4 +1,4 @@
-import { projectInterface } from "./projectInterface";
+import { projectInterface } from "./interfaces";
 
 /**
  *

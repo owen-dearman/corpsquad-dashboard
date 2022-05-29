@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Header } from "./components/Header";
 import { MainDashboard } from "./components/MainDashboard";
-import { projectInterface } from "./utils/projectInterface";
+import { projectInterface } from "./utils/interfaces";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 function App(): JSX.Element {

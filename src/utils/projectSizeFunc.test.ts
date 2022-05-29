@@ -2,9 +2,9 @@ import { getAverageRevenue, getTotalRevenue } from "./projectSizeFunc";
 
 const testData = [
   {
-    id: 1,
-    clientId: 1,
-    employeeIds: [1, 2, 3],
+    id: "1",
+    clientId: "1",
+    employeeIds: ["1", "2", "3"],
     contract: {
       startDate: "n/a",
       endDate: "n/a",
@@ -12,9 +12,9 @@ const testData = [
     },
   },
   {
-    id: 2,
-    clientId: 1,
-    employeeIds: [1, 2, 3],
+    id: "2",
+    clientId: "1",
+    employeeIds: ["1", "2", "3"],
     contract: {
       startDate: "n/a",
       endDate: "n/a",
@@ -22,9 +22,9 @@ const testData = [
     },
   },
   {
-    id: 3,
-    clientId: 1,
-    employeeIds: [1, 2, 3],
+    id: "3",
+    clientId: "1",
+    employeeIds: ["1", "2", "3"],
     contract: {
       startDate: "n/a",
       endDate: "n/a",
