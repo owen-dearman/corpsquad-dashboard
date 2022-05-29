@@ -17,7 +17,7 @@ export function SingleProject({ data }: SingleProjectProps): JSX.Element {
         <div className="employeeList">
           {data.employees.map((em) => (
             <li key={em.id}>
-              <strong>{em.name}</strong> ({em.id})
+              <strong>{em.name}</strong> {em.id}
             </li>
           ))}
         </div>

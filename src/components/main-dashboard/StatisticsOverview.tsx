@@ -13,12 +13,9 @@ export function StatisticsOverview({
 
   return (
     <section className="statisticsBanner">
-      <h1>Statistics:</h1>
-      <div>
-        <h3>Number Of Projects: {projects.length}</h3>
-        <h3>Total Revenue: £{totalRevenue.toFixed(2)}</h3>
-        <h3>Average Revenue: £{averageRevenue.toFixed(2)}</h3>
-      </div>
+      <h3>Total Projects: {projects.length}</h3>
+      <h3>Total Revenue: £{totalRevenue.toFixed(2)}</h3>
+      <h3>Average Revenue: £{averageRevenue.toFixed(2)}</h3>
     </section>
   );
 }

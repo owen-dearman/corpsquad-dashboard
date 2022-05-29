@@ -15,7 +15,9 @@ export function MainDashboard({ data }: MainDashboardProps): JSX.Element {
     <div>
       <FilterBar />
       <StatisticsOverview projects={data} />
-      <h2>Showing {projectList.length} Projects:</h2>
+      <h2 style={{ textAlign: "center" }}>
+        Showing {projectList.length} Projects:
+      </h2>
       <section className="projectListContainer">{projectList}</section>
     </div>
   );
