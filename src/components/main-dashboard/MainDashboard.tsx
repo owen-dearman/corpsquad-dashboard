@@ -1,10 +1,10 @@
-import { projectInterface } from "../../utils/interfaces";
+import { fullProjectInterface } from "../../utils/interfaces";
 import { FilterBar } from "./FilterBar";
 import { SingleProject } from "./SingleProject";
 import { StatisticsOverview } from "./StatisticsOverview";
 
 interface MainDashboardProps {
-  data: projectInterface[];
+  data: fullProjectInterface[];
 }
 
 export function MainDashboard({ data }: MainDashboardProps): JSX.Element {

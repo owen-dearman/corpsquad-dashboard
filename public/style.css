@@ -15,6 +15,11 @@ header {
     font-size: 25px;
 }
 
+.statisticsBanner {
+    background-color: black;
+    color: antiquewhite
+}
+
 .projectListContainer {
     display: inline-flex;
     flex-wrap: wrap;
@@ -24,9 +29,15 @@ header {
 .singleProjectContainer {
     display: flex;
     flex-direction: column;
+    text-align: center;
+    justify-content: space-between;
     width: 30%;
     border: 7px solid black;
     border-radius: 1%;
     padding: 5px;
     margin: 5px
+}
+
+.employeeList {
+    text-align: left;
 }
