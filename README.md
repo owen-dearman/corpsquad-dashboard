@@ -3,9 +3,9 @@
 # Owen Dearman
 
 # Wireframes
-<img width="350px" alt="wireframe for homepage of app" src="images/wireframe/homepage-wireframe.jpg">
-<img width="350px" alt="wireframe for employee page of app" src="images/wireframe/employees-wireframe.jpg">
-<img width="350px" alt="wireframe for client page of app" src="images/wireframe/clients-wireframe.jpg">
+<img width="350px" alt="wireframe for homepage of app" src="/publicimages/wireframe/homepage-wireframe.jpg">
+<img width="350px" alt="wireframe for employee page of app" src="/publicimages/wireframe/employees-wireframe.jpg">
+<img width="350px" alt="wireframe for client page of app" src="/public/images/wireframe/clients-wireframe.jpg">
 
 
 
