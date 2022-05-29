@@ -1,4 +1,4 @@
-import { projectInterface } from "./projectInterface";
+import { fullProjectInterface } from "./interfaces";
 
 /**
  *
@@ -6,7 +6,7 @@ import { projectInterface } from "./projectInterface";
  * @returns number - total revenue made from projects
  */
 
-export function getTotalRevenue(projects: projectInterface[]): number {
+export function getTotalRevenue(projects: fullProjectInterface[]): number {
   let totalProjectsize = 0;
   for (const project of projects) {
     totalProjectsize += parseFloat(project.contract.size);
