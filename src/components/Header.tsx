@@ -1,4 +1,4 @@
-import { currentDate } from "./utils/currentDate";
+import { currentDate } from "../utils/currentDate";
 
 export function Header(): JSX.Element {
   return (
