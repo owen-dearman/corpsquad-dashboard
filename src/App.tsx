@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Header } from "./components/Header";
-import { MainDashboard } from "./components/MainDashboard";
+import { MainDashboard } from "./components/main-dashboard/MainDashboard";
 import { projectInterface } from "./utils/interfaces";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 function App(): JSX.Element {
   const [projectData, setProjectData] = useState<projectInterface[]>([]);
 
@@ -13,7 +14,6 @@ function App(): JSX.Element {
         "https://consulting-projects.academy-faculty.repl.co/api/projects"
       );
       setProjectData(projects.data);
-      console.log(projects);
     }
     fetchProjects();
   }, []);

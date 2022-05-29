@@ -1,4 +1,4 @@
-import { projectInterface } from "../utils/interfaces";
+import { projectInterface } from "../../utils/interfaces";
 import { FilterBar } from "./FilterBar";
 import { SingleProject } from "./SingleProject";
 import { StatisticsOverview } from "./StatisticsOverview";
@@ -15,7 +15,8 @@ export function MainDashboard({ data }: MainDashboardProps): JSX.Element {
     <div>
       <FilterBar />
       <StatisticsOverview projects={data} />
-      <section>{projectList}</section>
+      <h2>Showing {projectList.length} Projects:</h2>
+      <section className="projectListContainer">{projectList}</section>
     </div>
   );
 }

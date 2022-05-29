@@ -1,4 +1,4 @@
-import { projectInterface } from "../utils/interfaces";
+import { projectInterface } from "../../utils/interfaces";
 
 interface SingleProjectProps {
   data: projectInterface;
@@ -6,8 +6,8 @@ interface SingleProjectProps {
 
 export function SingleProject({ data }: SingleProjectProps): JSX.Element {
   return (
-    <div>
-      <h3>Project ID: {data.id}</h3>
+    <div className="singleProjectContainer">
+      <h3>{data.id}</h3>
       <h4>Client ID: {data.clientId}</h4>
       <h4>Client Name:</h4>
       <h5>Employees:</h5>
