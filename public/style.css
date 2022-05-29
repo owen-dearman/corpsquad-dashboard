@@ -1,0 +1,16 @@
+body {
+    margin: 0px;
+    background-color: blanchedalmond;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0% 5%;
+    background-color: black;
+    color: blanchedalmond;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 25px;
+}
