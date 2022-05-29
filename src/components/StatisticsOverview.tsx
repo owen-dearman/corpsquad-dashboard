@@ -15,8 +15,8 @@ export function StatisticsOverview({
     <section>
       <h2>Number Of Projects: {projects.length}</h2>
       <h2>Number Of Clients:</h2>
-      <h2>Total Revenue: £{totalRevenue}</h2>
-      <h2>Average Revenue: £{averageRevenue}</h2>
+      <h2>Total Revenue: £{totalRevenue.toFixed(2)}</h2>
+      <h2>Average Revenue: £{averageRevenue.toFixed(2)}</h2>
     </section>
   );
 }
