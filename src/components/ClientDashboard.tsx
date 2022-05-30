@@ -17,6 +17,10 @@ export function ClientDashboard({
   const { clientId } = useParams() as { clientId: string };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [clientId]);
+
+  useEffect(() => {
     async function fetchClientData() {
       const response = await axios.get(
         `https://consulting-projects.academy-faculty.repl.co/api/clients/${clientId}`
@@ -24,7 +28,7 @@ export function ClientDashboard({
       setClientData(response.data);
     }
     fetchClientData();
-  });
+  }, [clientId]);
 
   const clientProjects = getClientProjects(projectData, clientId);
   const projectList = clientProjects.map((project) => (

@@ -75,3 +75,8 @@ li {
     padding: 10px;
     font-size: 40px;
 }
+
+.navLink {
+    color: black;
+    font-size: 18px;
+}
