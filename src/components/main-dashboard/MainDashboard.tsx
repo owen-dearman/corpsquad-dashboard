@@ -2,7 +2,6 @@ import { fullProjectInterface } from "../../utils/interfaces";
 import { FilterBar } from "./FilterBar";
 import { SingleProject } from "../SingleProject";
 import { StatisticsOverview } from "./StatisticsOverview";
-import { useEffect } from "react";
 
 interface MainDashboardProps {
   projectData: fullProjectInterface[];
