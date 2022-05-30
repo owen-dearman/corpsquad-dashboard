@@ -20,6 +20,10 @@ export function EmployeeDashboard({
   const { employeeId } = useParams() as { employeeId: string };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [employeeId]);
+
+  useEffect(() => {
     async function fetchEmployeeData() {
       const response = await axios.get(
         `https://consulting-projects.academy-faculty.repl.co/api/employees/${employeeId}`
@@ -27,7 +31,7 @@ export function EmployeeDashboard({
       setEmployeeData(response.data);
     }
     fetchEmployeeData();
-  });
+  }, [employeeId]);
 
   const employeeProjects = getEmployeeProjects(projectData, employeeId);
   const projectList = employeeProjects.map((project) => (

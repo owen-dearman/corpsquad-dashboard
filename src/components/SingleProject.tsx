@@ -13,25 +13,36 @@ export function SingleProject({ data }: SingleProjectProps): JSX.Element {
         <strong>{data.client.name}</strong>
       </h3>
       <h3 style={{ marginTop: "-20px" }}>
-        <Link to={`/clients/${data.client.id}`}>{data.client.id}</Link>
+        <Link className="navLink" to={`/clients/${data.client.id}`}>
+          {data.client.id}
+        </Link>
       </h3>
-      <h3>Employees: {data.employees.length}</h3>
+
       {data.employees.length > 0 ? (
-        <div className="employeeList">
-          {data.employees.map((em) => (
-            <li key={em.id}>
-              <strong>{em.name}</strong>{" "}
-              <Link to={`/employees/${em.id}`}>{em.id}</Link>
-            </li>
-          ))}
-        </div>
+        <>
+          <h3>Employees: {data.employees.length}</h3>
+          <div className="employeeList">
+            {data.employees.map((em) => (
+              <li key={em.id}>
+                <strong>{em.name}</strong>{" "}
+                <Link className="navLink" to={`/employees/${em.id}`}>
+                  {em.id}
+                </Link>
+              </li>
+            ))}
+          </div>
+        </>
       ) : (
         <p>No Employees Recorded</p>
       )}
       <h3>
         {data.contract.startDate} - {data.contract.endDate}
       </h3>
-      <h3>£{data.contract.size}</h3>
+      {data.contract.size === "0.00" ? (
+        <p>No Fee Recorded</p>
+      ) : (
+        <h3>£{data.contract.size}</h3>
+      )}
     </div>
   );
 }
