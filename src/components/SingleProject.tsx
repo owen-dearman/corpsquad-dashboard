@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { formatProjectSize } from "../utils/formatProjectSize";
 import { fullProjectInterface } from "../utils/interfaces";
 
 interface SingleProjectProps {
@@ -39,9 +40,9 @@ export function SingleProject({ data }: SingleProjectProps): JSX.Element {
         {data.contract.startDate} - {data.contract.endDate}
       </h3>
       {data.contract.size === "0.00" ? (
-        <p>No Fee Recorded</p>
+        <p>No Fee</p>
       ) : (
-        <h3>£{data.contract.size}</h3>
+        <h3>{formatProjectSize(data.contract.size)}</h3>
       )}
     </div>
   );
