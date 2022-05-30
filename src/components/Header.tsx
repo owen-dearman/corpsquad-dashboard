@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { currentDate } from "../utils/currentDate";
 
 export function Header(): JSX.Element {
@@ -8,6 +9,7 @@ export function Header(): JSX.Element {
       </h1>
       <h1>Dashboard</h1>
       <p>{currentDate()}</p>
+      <Link to={"/"}>Home</Link>
     </header>
   );
 }
