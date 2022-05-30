@@ -1,6 +1,7 @@
 body {
     margin: 0px;
     background-color: blanchedalmond;
+    font-family: Tahoma, Verdana, Geneva, sans-serif;
 }
 
 header {
@@ -11,13 +12,17 @@ header {
     padding: 0% 5%;
     background-color: black;
     color: blanchedalmond;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 25px;
 }
 
 .statisticsBanner {
+    display: inline-flex;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 10px;
     background-color: black;
-    color: antiquewhite
+    color: antiquewhite;
+    font-size: 25px
 }
 
 .projectListContainer {
@@ -40,4 +45,33 @@ header {
 
 .employeeList {
     text-align: left;
+}
+
+li {
+    list-style: none;
+}
+
+.employeeBio {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 10px
+}
+
+.employeeAvatar {
+    width: 10%;
+    height: auto;
+    object-fit: contain;
+}
+
+.employeeDetails {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.clientBio {
+    text-align: center;
+    padding: 10px;
+    font-size: 40px;
 }

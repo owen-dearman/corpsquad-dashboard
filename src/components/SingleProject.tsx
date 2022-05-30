@@ -1,4 +1,5 @@
-import { fullProjectInterface } from "../../utils/interfaces";
+import { Link } from "react-router-dom";
+import { fullProjectInterface } from "../utils/interfaces";
 
 interface SingleProjectProps {
   data: fullProjectInterface;
@@ -11,13 +12,16 @@ export function SingleProject({ data }: SingleProjectProps): JSX.Element {
       <h3>
         <strong>{data.client.name}</strong>
       </h3>
-      <h3 style={{ marginTop: "-20px" }}>{data.client.id}</h3>
+      <h3 style={{ marginTop: "-20px" }}>
+        <Link to={`/clients/${data.client.id}`}>{data.client.id}</Link>
+      </h3>
       <h3>Employees: {data.employees.length}</h3>
       {data.employees.length > 0 ? (
         <div className="employeeList">
           {data.employees.map((em) => (
             <li key={em.id}>
-              <strong>{em.name}</strong> ({em.id})
+              <strong>{em.name}</strong>{" "}
+              <Link to={`/employees/${em.id}`}>{em.id}</Link>
             </li>
           ))}
         </div>
