@@ -9,7 +9,9 @@ export function Header(): JSX.Element {
       </h1>
       <h1>Dashboard</h1>
       <p>{currentDate()}</p>
-      <Link to={"/"}>Home</Link>
+      <Link className="homeButton" to={"/"}>
+        Home
+      </Link>
     </header>
   );
 }
