@@ -29,3 +29,10 @@ export interface fullProjectInterface {
     size: string;
   };
 }
+
+export interface employeeDataInterface {
+  id: string;
+  name: string;
+  role: string;
+  avatar: string;
+}

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { fullProjectInterface } from "../../utils/interfaces";
 
 interface SingleProjectProps {
@@ -17,7 +18,8 @@ export function SingleProject({ data }: SingleProjectProps): JSX.Element {
         <div className="employeeList">
           {data.employees.map((em) => (
             <li key={em.id}>
-              <strong>{em.name}</strong> {em.id}
+              <strong>{em.name}</strong>{" "}
+              <Link to={`/employees/${em.id}`}>{em.id}</Link>
             </li>
           ))}
         </div>

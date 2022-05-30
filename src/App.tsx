@@ -5,6 +5,7 @@ import { fullProjectInterface, projectInterface } from "./utils/interfaces";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { addClientsAndEmployeesToProjects } from "./utils/addClientsAndEmployeesToProjects";
+import { EmployeeDashboard } from "./components/main-dashboard/EmployeeDashboard";
 
 function App(): JSX.Element {
   const [projectData, setProjectData] = useState<fullProjectInterface[]>([]);
@@ -24,10 +25,14 @@ function App(): JSX.Element {
 
   return (
     <>
-      <Header />
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<MainDashboard data={projectData} />} />
+          <Route
+            path="/employees/:employeeId"
+            element={<EmployeeDashboard projectData={projectData} />}
+          />
         </Routes>
       </Router>
     </>

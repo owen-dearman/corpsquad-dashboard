@@ -46,3 +46,26 @@ header {
 .employeeList {
     text-align: left;
 }
+
+li {
+    list-style: none;
+}
+
+.employeeBio {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 10px
+}
+
+.employeeAvatar {
+    width: 10%;
+    height: auto;
+    object-fit: contain;
+}
+
+.employeeDetails {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
