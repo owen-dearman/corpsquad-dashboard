@@ -7,24 +7,26 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { addClientsAndEmployeesToProjects } from "./utils/addClientsAndEmployeesToProjects";
 import { EmployeeDashboard } from "./components/EmployeeDashboard";
 import { ClientDashboard } from "./components/ClientDashboard";
+import { applyFilters } from "./utils/applyFilters";
+
+export type State = {
+  projectData: fullProjectInterface[];
+  isLoading: boolean;
+  filters?: {
+    projectSize: { min: null | string; max: null | string };
+    clients: string[];
+    employees: string[];
+    timeFrame: { start: null | string; end: null | string };
+  };
+};
+
+type Action =
+  | { type: "request" }
+  | { type: "success"; results: fullProjectInterface[] }
+  | { type: "apply-filters" }
+  | { type: "set-filters"; results: State["filters"] };
 
 function App(): JSX.Element {
-  type State = {
-    data: fullProjectInterface[];
-    isLoading: boolean;
-    filters?: {
-      projectSize: { min: null; max: null };
-      clients: [];
-      employees: [];
-      timeFrame: { start: null; end: null };
-      employeeNumber: { min: null; max: null };
-    };
-  };
-
-  type Action =
-    | { type: "request" }
-    | { type: "success"; results: fullProjectInterface[] };
-
   const projectDataReducer = (state: State, action: Action): State => {
     switch (action.type) {
       case "request":
@@ -36,15 +38,30 @@ function App(): JSX.Element {
         return {
           ...state,
           isLoading: false,
-          data: action.results,
+          projectData: action.results,
+        };
+      case "set-filters":
+        return {
+          ...state,
+          isLoading: false,
+          filters: action.results,
+        };
+      case "apply-filters":
+        return {
+          ...state,
+          isLoading: false,
+          projectData: applyFilters(state),
         };
     }
   };
 
-  const [{ data, isLoading }, dispatch] = useReducer(projectDataReducer, {
-    data: [],
-    isLoading: false,
-  });
+  const [{ projectData, isLoading }, dispatch] = useReducer(
+    projectDataReducer,
+    {
+      projectData: [],
+      isLoading: false,
+    }
+  );
 
   //const [projectData, setProjectData] = useState<fullProjectInterface[]>([]);
 
@@ -54,9 +71,10 @@ function App(): JSX.Element {
       axios
         .get("https://consulting-projects.academy-faculty.repl.co/api/projects")
         .then((results) => addClientsAndEmployeesToProjects(results.data))
-        .then((projectData) =>
-          dispatch({ type: "success", results: projectData })
-        );
+        .then((projectData) => {
+          dispatch({ type: "success", results: projectData });
+          dispatch({ type: "apply-filters" });
+        });
     }
     fetchProjects();
   }, []);
@@ -69,14 +87,17 @@ function App(): JSX.Element {
           <h1 className="loadingMessage">Loading...</h1>
         ) : (
           <Routes>
-            <Route path="/" element={<MainDashboard projectData={data} />} />
+            <Route
+              path="/"
+              element={<MainDashboard projectData={projectData} />}
+            />
             <Route
               path="/employees/:employeeId"
-              element={<EmployeeDashboard projectData={data} />}
+              element={<EmployeeDashboard projectData={projectData} />}
             />
             <Route
               path="/clients/:clientId"
-              element={<ClientDashboard projectData={data} />}
+              element={<ClientDashboard projectData={projectData} />}
             />
           </Routes>
         )}
