@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import {
   employeeDataInterface,
   fullProjectInterface,
-} from "../../utils/interfaces";
+} from "../utils/interfaces";
 import { useParams } from "react-router-dom";
 import { SingleProject } from "./SingleProject";
-import { getEmployeeProjects } from "../../utils/getEmployeeProjects";
-import { getAverageRevenue, getTotalRevenue } from "../../utils/projectStats";
+import { getEmployeeProjects } from "../utils/getEmployeeProjects";
+import { getAverageRevenue, getTotalRevenue } from "../utils/projectStats";
 
 interface EmployeeDashboardProps {
   projectData: fullProjectInterface[];

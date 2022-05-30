@@ -69,3 +69,9 @@ li {
     flex-direction: column;
     text-align: center;
 }
+
+.clientBio {
+    text-align: center;
+    padding: 10px;
+    font-size: 40px;
+}
