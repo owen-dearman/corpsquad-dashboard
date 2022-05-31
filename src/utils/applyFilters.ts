@@ -1,6 +1,5 @@
 import { State } from "../App";
 import { convertDateToComparable } from "./convertDateToComparable";
-import { getEmployeeProjects } from "./getEmployeeProjects";
 import { fullProjectInterface } from "./interfaces";
 
 /*
@@ -12,23 +11,15 @@ import { fullProjectInterface } from "./interfaces";
   };
 */
 
-export function applyFilters(data: State): fullProjectInterface[] {
-  let projectData = data.projectData;
-  const filters = data.filters;
-  if (filters) {
-    console.log("prefilters", projectData);
-    projectData = filterProjectSize(projectData, filters.projectSize);
-    console.log("projectSize", projectData);
-    projectData = filterClient(projectData, filters.clients);
-    console.log("clients", projectData);
-    projectData = filterEmployee(projectData, filters.employees);
-    console.log("employee", projectData);
-    projectData = filterDates(projectData, filters.timeFrame);
-    console.log("dates", projectData);
-    return projectData;
-  } else {
-    return projectData;
-  }
+export function applyFilters(
+  projectData: fullProjectInterface[],
+  filters: State["filters"]
+): fullProjectInterface[] {
+  projectData = filterProjectSize(projectData, filters.projectSize);
+  projectData = filterClient(projectData, filters.clients);
+  projectData = filterEmployee(projectData, filters.employees);
+  projectData = filterDates(projectData, filters.timeFrame);
+  return projectData;
 }
 
 function filterProjectSize(
@@ -41,16 +32,16 @@ function filterProjectSize(
   }
   if (typeof filters.max === "string") {
     const maximum = parseFloat(filters.max);
-    data = data.filter((proj) => parseFloat(proj.contract.size) > maximum);
+    data = data.filter((proj) => parseFloat(proj.contract.size) < maximum);
   }
   return data;
 }
 
 function filterClient(
   data: fullProjectInterface[],
-  clientIdFilter: string[]
+  clientIdFilter: string | null
 ): fullProjectInterface[] {
-  if (clientIdFilter.length === 0) {
+  if (!clientIdFilter) {
     return data;
   }
   return data.filter((proj) => clientIdFilter.includes(proj.client.id));
@@ -63,28 +54,54 @@ function filterEmployee(
   if (employeeIdFilter.length === 0) {
     return data;
   }
-  for (const id of employeeIdFilter) {
-    data = getEmployeeProjects(data, id);
+  const projectList = [];
+  for (const project of data) {
+    const arrayOfEmployees: string[] = [];
+    for (const employee of project.employees) {
+      arrayOfEmployees.push(employee.id);
+    }
+    if (employeeIdFilter.every((id) => arrayOfEmployees.includes(id))) {
+      projectList.push(project);
+    }
   }
-  return data;
+  return projectList;
 }
 
 function filterDates(
   data: fullProjectInterface[],
-  startEndDates: { start: string | null; end: string | null }
+  startEndDates: {
+    startBefore: null | string;
+    startAfter: null | string;
+    endBefore: null | string;
+    endAfter: null | string;
+  }
 ): fullProjectInterface[] {
-  if (typeof startEndDates.start === "string") {
-    const startDate = convertDateToComparable(startEndDates.start);
-    data.filter((project) => {
+  if (typeof startEndDates.startBefore === "string") {
+    const startDate = convertDateToComparable(startEndDates.startBefore);
+    data = data.filter((project) => {
+      const projStart = convertDateToComparable(project.contract.startDate);
+      return projStart < startDate;
+    });
+  }
+  if (typeof startEndDates.startAfter === "string") {
+    const startDate = convertDateToComparable(startEndDates.startAfter);
+    data = data.filter((project) => {
       const projStart = convertDateToComparable(project.contract.startDate);
       return projStart > startDate;
     });
   }
-  if (typeof startEndDates.end === "string") {
-    const endDate = convertDateToComparable(startEndDates.end);
-    data.filter((project) => {
+  if (typeof startEndDates.endBefore === "string") {
+    const endDate = convertDateToComparable(startEndDates.endBefore);
+    data = data.filter((project) => {
       const projEnd = convertDateToComparable(project.contract.endDate);
       return projEnd < endDate;
+    });
+  }
+  if (typeof startEndDates.endAfter === "string") {
+    const endDate = convertDateToComparable(startEndDates.endAfter);
+    data = data.filter((project) => {
+      const projEnd = convertDateToComparable(project.contract.endDate);
+      return projEnd > endDate;
     });
   }
   return data;
