@@ -21,9 +21,14 @@ export type State = {
   isLoading: boolean;
   filters: {
     projectSize: { min: null | string; max: null | string };
-    clients: string[];
+    clients: string | null;
     employees: string[];
-    timeFrame: { start: null | string; end: null | string };
+    timeFrame: {
+      startBefore: null | string;
+      startAfter: null | string;
+      endBefore: null | string;
+      endAfter: null | string;
+    };
   };
 };
 
@@ -71,9 +76,14 @@ function App(): JSX.Element {
     employeeList: [],
     filters: {
       projectSize: { min: null, max: null },
-      clients: [],
+      clients: null,
       employees: [],
-      timeFrame: { start: null, end: null },
+      timeFrame: {
+        startBefore: null,
+        startAfter: null,
+        endBefore: null,
+        endAfter: null,
+      },
     },
     isLoading: false,
   });
