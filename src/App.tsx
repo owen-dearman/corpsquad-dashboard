@@ -1,18 +1,26 @@
 import { useEffect, useReducer } from "react";
 import { Header } from "./components/Header";
 import { MainDashboard } from "./components/main-dashboard/MainDashboard";
-import { fullProjectInterface } from "./utils/interfaces";
+import {
+  fullClientInterface,
+  fullEmployeeInterface,
+  fullProjectInterface,
+} from "./utils/interfaces";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { addClientsAndEmployeesToProjects } from "./utils/addClientsAndEmployeesToProjects";
 import { EmployeeDashboard } from "./components/EmployeeDashboard";
 import { ClientDashboard } from "./components/ClientDashboard";
 import { applyFilters } from "./utils/applyFilters";
+import { fetchListOfClients } from "./utils/fetchListOfClients";
+import { fetchListOfEmployees } from "./utils/fetchListOfEmployees";
 
 export type State = {
   projectData: fullProjectInterface[];
+  clientList: fullClientInterface[];
+  employeeList: fullEmployeeInterface[];
   isLoading: boolean;
-  filters?: {
+  filters: {
     projectSize: { min: null | string; max: null | string };
     clients: string[];
     employees: string[];
@@ -20,9 +28,14 @@ export type State = {
   };
 };
 
-type Action =
+export type Action =
   | { type: "request" }
-  | { type: "success"; results: fullProjectInterface[] }
+  | {
+      type: "success";
+      projects: fullProjectInterface[];
+      clients: fullClientInterface[];
+      employees: fullEmployeeInterface[];
+    }
   | { type: "apply-filters" }
   | { type: "set-filters"; results: State["filters"] };
 
@@ -38,7 +51,9 @@ function App(): JSX.Element {
         return {
           ...state,
           isLoading: false,
-          projectData: action.results,
+          projectData: action.projects,
+          clientList: action.clients,
+          employeeList: action.employees,
         };
       case "set-filters":
         return {
@@ -50,31 +65,48 @@ function App(): JSX.Element {
         return {
           ...state,
           isLoading: false,
-          projectData: applyFilters(state),
+          projectData: applyFilters(state.projectData, state.filters),
         };
     }
   };
 
-  const [{ projectData, isLoading }, dispatch] = useReducer(
-    projectDataReducer,
-    {
-      projectData: [],
-      isLoading: false,
-    }
-  );
+  const [
+    { projectData, clientList, employeeList, isLoading, filters },
+    dispatch,
+  ] = useReducer(projectDataReducer, {
+    projectData: [],
+    clientList: [],
+    employeeList: [],
+    filters: {
+      projectSize: { min: null, max: null },
+      clients: [],
+      employees: [],
+      timeFrame: { start: null, end: null },
+    },
+    isLoading: false,
+  });
 
   //const [projectData, setProjectData] = useState<fullProjectInterface[]>([]);
 
   useEffect(() => {
-    function fetchProjects() {
+    async function fetchProjects() {
       dispatch({ type: "request" });
-      axios
-        .get("https://consulting-projects.academy-faculty.repl.co/api/projects")
-        .then((results) => addClientsAndEmployeesToProjects(results.data))
-        .then((projectData) => {
-          dispatch({ type: "success", results: projectData });
-          dispatch({ type: "apply-filters" });
-        });
+      const projects = await axios.get(
+        "https://consulting-projects.academy-faculty.repl.co/api/projects"
+      );
+      const clients = await fetchListOfClients();
+      const employees = await fetchListOfEmployees();
+      const fullProjectList = addClientsAndEmployeesToProjects(
+        projects.data,
+        clients,
+        employees
+      );
+      dispatch({
+        type: "success",
+        projects: fullProjectList,
+        clients: clients,
+        employees: employees,
+      });
     }
     fetchProjects();
   }, []);
@@ -89,7 +121,15 @@ function App(): JSX.Element {
           <Routes>
             <Route
               path="/"
-              element={<MainDashboard projectData={projectData} />}
+              element={
+                <MainDashboard
+                  projectData={projectData}
+                  clientList={clientList}
+                  employeeList={employeeList}
+                  dispatch={dispatch}
+                  filters={filters}
+                />
+              }
             />
             <Route
               path="/employees/:employeeId"

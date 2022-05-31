@@ -12,23 +12,15 @@ import { fullProjectInterface } from "./interfaces";
   };
 */
 
-export function applyFilters(data: State): fullProjectInterface[] {
-  let projectData = data.projectData;
-  const filters = data.filters;
-  if (filters) {
-    console.log("prefilters", projectData);
-    projectData = filterProjectSize(projectData, filters.projectSize);
-    console.log("projectSize", projectData);
-    projectData = filterClient(projectData, filters.clients);
-    console.log("clients", projectData);
-    projectData = filterEmployee(projectData, filters.employees);
-    console.log("employee", projectData);
-    projectData = filterDates(projectData, filters.timeFrame);
-    console.log("dates", projectData);
-    return projectData;
-  } else {
-    return projectData;
-  }
+export function applyFilters(
+  projectData: fullProjectInterface[],
+  filters: State["filters"]
+): fullProjectInterface[] {
+  projectData = filterProjectSize(projectData, filters.projectSize);
+  projectData = filterClient(projectData, filters.clients);
+  projectData = filterEmployee(projectData, filters.employees);
+  projectData = filterDates(projectData, filters.timeFrame);
+  return projectData;
 }
 
 function filterProjectSize(
