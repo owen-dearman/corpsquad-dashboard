@@ -32,7 +32,7 @@ function filterProjectSize(
   }
   if (typeof filters.max === "string") {
     const maximum = parseFloat(filters.max);
-    data = data.filter((proj) => parseFloat(proj.contract.size) > maximum);
+    data = data.filter((proj) => parseFloat(proj.contract.size) < maximum);
   }
   return data;
 }
