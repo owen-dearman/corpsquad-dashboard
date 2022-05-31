@@ -95,3 +95,69 @@ li {
     color: black;
     font-size: 18px;
 }
+
+
+.sortButtonContainer {
+    display: inline-flex;
+    width: 100%;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.sortButton {
+    font-size: 25px;
+    color: black;
+    background-color: antiquewhite;
+    border: 1px solid black;
+    padding: 0px 10px;
+    margin: 0px 5px;
+    text-align: center;
+}
+
+
+.sortButtonActive {
+    font-size: 25px;
+    color: antiquewhite;
+    background-color: black;
+    border: 1px solid black;
+    padding: 0px 10px;
+    margin: 0px 5px;
+    text-align: center;
+}
+
+.clearButton {
+    font-size: 20px;
+    color: black;
+    background-color: antiquewhite;
+    border: 1px solid black;
+    width: 10%;
+}
+
+.clearButton:hover {
+    font-size: 20px;
+    color: antiquewhite;
+    background-color: black;
+    border: 1px solid black;
+    width: 10%;
+}
+
+.filterStyling {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 0px;
+    margin: 0px 10px;
+}
+
+.filterContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    flex-wrap: nowrap
+}
+
+.datepicker {
+    background-color: antiquewhite;
+    width: auto;
+}

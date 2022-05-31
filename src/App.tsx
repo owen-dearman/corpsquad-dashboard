@@ -1,6 +1,9 @@
 import { useEffect, useReducer } from "react";
 import { Header } from "./components/Header";
-import { MainDashboard } from "./components/main-dashboard/MainDashboard";
+import {
+  MainDashboard,
+  SortTypes,
+} from "./components/main-dashboard/MainDashboard";
 import {
   fullClientInterface,
   fullEmployeeInterface,
@@ -16,6 +19,7 @@ import { fetchListOfEmployees } from "./utils/fetchListOfEmployees";
 
 export type State = {
   projectData: fullProjectInterface[];
+  activeSort: SortTypes;
   clientList: fullClientInterface[];
   employeeList: fullEmployeeInterface[];
   isLoading: boolean;
@@ -40,7 +44,8 @@ export type Action =
       clients: fullClientInterface[];
       employees: fullEmployeeInterface[];
     }
-  | { type: "set-filters"; results: State["filters"] };
+  | { type: "set-filters"; results: State["filters"] }
+  | { type: "sort-projects"; data: fullProjectInterface[]; sort: SortTypes };
 
 const projectDataReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -63,17 +68,25 @@ const projectDataReducer = (state: State, action: Action): State => {
         isLoading: false,
         filters: action.results,
       };
+    case "sort-projects":
+      return {
+        ...state,
+        isLoading: false,
+        projectData: action.data,
+        activeSort: action.sort,
+      };
   }
 };
 
 function App(): JSX.Element {
   const [
-    { projectData, clientList, employeeList, isLoading, filters },
+    { projectData, clientList, employeeList, isLoading, filters, activeSort },
     dispatch,
   ] = useReducer(projectDataReducer, {
     projectData: [],
     clientList: [],
     employeeList: [],
+    activeSort: "sizeDescending",
     filters: {
       projectSize: { min: null, max: null },
       clients: null,
@@ -105,7 +118,9 @@ function App(): JSX.Element {
       );
       dispatch({
         type: "success",
-        projects: fullProjectList,
+        projects: fullProjectList.sort(
+          (a, b) => parseInt(b.contract.size) - parseInt(a.contract.size)
+        ),
         clients: clients,
         employees: employees,
       });
@@ -130,6 +145,7 @@ function App(): JSX.Element {
                   employeeList={employeeList}
                   dispatch={dispatch}
                   filters={filters}
+                  activeSort={activeSort}
                 />
               }
             />
