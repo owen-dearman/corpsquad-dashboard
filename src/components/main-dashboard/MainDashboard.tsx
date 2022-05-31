@@ -197,6 +197,11 @@ export function MainDashboard({
         )}
       </div>
       <section className="projectListContainer">{projectList}</section>
+      {projectList.length > 0 && (
+        <button className="clearButton" onClick={() => window.scrollTo(0, 0)}>
+          Go To Top
+        </button>
+      )}
     </div>
   );
 }

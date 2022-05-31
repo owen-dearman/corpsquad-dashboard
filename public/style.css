@@ -126,12 +126,18 @@ li {
     text-align: center;
 }
 
+.clearButtonContainer {
+    display: flex;
+    align-items: center;
+}
+
 .clearButton {
     font-size: 20px;
     color: black;
     background-color: antiquewhite;
     border: 1px solid black;
-    width: 10%;
+    text-align: center;
+    padding: 10px
 }
 
 .clearButton:hover {
@@ -139,25 +145,30 @@ li {
     color: antiquewhite;
     background-color: black;
     border: 1px solid black;
-    width: 10%;
 }
 
 .filterStyling {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-evenly;
     padding: 0px 0px;
     margin: 0px 10px;
 }
 
 .filterContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
-    align-items: baseline;
+    align-items: center;
     flex-wrap: nowrap
 }
 
-.datepicker {
+.filterInput {
     background-color: antiquewhite;
     width: auto;
+}
+
+.employeeFilterList {
+    font-size: 15px;
+    margin-bottom: -5px;
 }
