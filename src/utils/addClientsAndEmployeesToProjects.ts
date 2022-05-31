@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   fullClientInterface,
   fullEmployeeInterface,
@@ -12,23 +11,17 @@ import {
  * @returns list of projects with client and employee names included
  */
 
-export async function addClientsAndEmployeesToProjects(
-  projects: projectInterface[]
-): Promise<fullProjectInterface[]> {
-  const clientList = await axios.get(
-    "https://consulting-projects.academy-faculty.repl.co/api/clients"
-  );
-  const employeeList = await axios.get(
-    "https://consulting-projects.academy-faculty.repl.co/api/employees"
-  );
+export function addClientsAndEmployeesToProjects(
+  projects: projectInterface[],
+  clientDatabase: fullClientInterface[],
+  employeeDatabase: fullEmployeeInterface[]
+): fullProjectInterface[] {
   const fullProjectDetails: fullProjectInterface[] = [];
   for (const project of projects) {
-    const clientName: fullClientInterface = clientList.data.find(
-      (client: fullClientInterface) => project.clientId === client.id
-    );
+    const clientName = matchClientNameToId(project.clientId, clientDatabase);
     const employeeIdsAndNames = matchEmployeeNamesToIds(
       project.employeeIds,
-      employeeList.data
+      employeeDatabase
     );
     const expandedProjectDetails: fullProjectInterface = {
       id: project.id,
@@ -39,6 +32,26 @@ export async function addClientsAndEmployeesToProjects(
     fullProjectDetails.push(expandedProjectDetails);
   }
   return fullProjectDetails;
+}
+
+/**
+ *
+ * @param clientId string ID of client from project
+ * @param clientDatabase database of client IDs and names
+ * @returns object containing ID from project and matching name or default
+ */
+
+function matchClientNameToId(
+  clientId: string,
+  clientDatabase: fullClientInterface[]
+) {
+  let clientName: fullClientInterface | undefined = clientDatabase.find(
+    (client: fullClientInterface) => clientId === client.id
+  );
+  if (!clientName) {
+    clientName = { id: clientId, name: "No Client In Register" };
+  }
+  return clientName;
 }
 
 /**

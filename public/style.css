@@ -15,6 +15,18 @@ header {
     font-size: 25px;
 }
 
+.homeButton {
+    color: black;
+    padding: 10px;
+    background-color: antiquewhite;
+    text-decoration: none;
+}
+
+.loadingMessage {
+    text-align: center;
+    font-size: 60px;
+}
+
 .statisticsBanner {
     display: inline-flex;
     justify-content: space-evenly;
@@ -54,8 +66,9 @@ li {
 .employeeBio {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    padding: 10px
+    justify-content: center;
+    align-items: center;
+    padding: 20px
 }
 
 .employeeAvatar {
@@ -68,6 +81,7 @@ li {
     display: flex;
     flex-direction: column;
     text-align: center;
+    margin-left: 20px;
 }
 
 .clientBio {

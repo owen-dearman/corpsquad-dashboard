@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { SingleProject } from "./SingleProject";
 import { getEmployeeProjects } from "../utils/getEmployeeProjects";
 import { getAverageRevenue, getTotalRevenue } from "../utils/projectStats";
+import { formatProjectSize } from "../utils/formatProjectSize";
 
 interface EmployeeDashboardProps {
   projectData: fullProjectInterface[];
@@ -63,8 +64,13 @@ export function EmployeeDashboard({
       </section>
       <section className="statisticsBanner">
         <h3>Total Projects: {projectList.length}</h3>
-        <h3>Total Project Revenue: £{totalRevenue.toFixed(2)}</h3>
-        <h3>Average Project Revenue: £{averageRevenue.toFixed(2)}</h3>
+        <h3>
+          Total Project Revenue: {formatProjectSize(totalRevenue.toFixed(2))}
+        </h3>
+        <h3>
+          Average Project Revenue:{" "}
+          {formatProjectSize(averageRevenue.toFixed(2))}
+        </h3>
       </section>
       <section className="projectListContainer">{projectList}</section>
     </div>
