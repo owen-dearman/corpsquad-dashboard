@@ -1,4 +1,5 @@
-import axios from "axios";
+import { fetchListOfClients } from "./fetchListOfClients";
+import { fetchListOfEmployees } from "./fetchListOfEmployees";
 import {
   fullClientInterface,
   fullEmployeeInterface,
@@ -15,20 +16,19 @@ import {
 export async function addClientsAndEmployeesToProjects(
   projects: projectInterface[]
 ): Promise<fullProjectInterface[]> {
-  const clientList = await axios.get(
-    "https://consulting-projects.academy-faculty.repl.co/api/clients"
-  );
-  const employeeList = await axios.get(
-    "https://consulting-projects.academy-faculty.repl.co/api/employees"
-  );
+  const clientList = await fetchListOfClients();
+  const employeeList = await fetchListOfEmployees();
   const fullProjectDetails: fullProjectInterface[] = [];
   for (const project of projects) {
-    const clientName: fullClientInterface = clientList.data.find(
+    let clientName: fullClientInterface | undefined = clientList.find(
       (client: fullClientInterface) => project.clientId === client.id
     );
+    if (!clientName) {
+      clientName = { id: project.clientId, name: "No Client In Register" };
+    }
     const employeeIdsAndNames = matchEmployeeNamesToIds(
       project.employeeIds,
-      employeeList.data
+      employeeList
     );
     const expandedProjectDetails: fullProjectInterface = {
       id: project.id,
