@@ -129,110 +129,135 @@ export function FilterBar({
   }
 
   return (
-    <div>
-      <p>Filter By Client</p>
-      <select
-        name="clients"
-        defaultValue={"All"}
-        value={filters.clients ? filters.clients : ""}
-        placeholder={"Select Client"}
-        onChange={(e) => handleSelectChange(e)}
-      >
-        <option value="All">All Clients</option>
-        {clientList.map((client) => (
-          <option value={client.id} key={client.id}>
-            {client.name}
-          </option>
-        ))}
-      </select>
-      <p>Filter By Employee</p>
-      <select
-        defaultValue={"All"}
-        value={
-          filters.employees.length > 0
-            ? filters.employees[filters.employees.length - 1]
-            : ""
-        }
-        name="employees"
-        placeholder={"Select Employee(s)"}
-        onChange={(e) => handleSelectChange(e)}
-      >
-        <option value="All">All Employees</option>
-        {employeeList.map((employee) => (
-          <option value={employee.id} key={employee.id}>
-            {employee.name}
-          </option>
-        ))}
-      </select>
-      {filters.employees.length > 0 && (
-        <div>
-          Employees:{" "}
-          {filters.employees.map((employee) => (
-            <p key={employee}>{getNameOfEmployee(employee, employeeList)}</p>
-          ))}
+    <>
+      <div className="filterStyling">
+        <div className="clearButtonContainer">
+          <button className="clearButton" onClick={handleClear}>
+            Clear Filters
+          </button>
         </div>
-      )}
-      <p>Filter By Date</p>
-      <DatePicker
-        value={
-          filters.timeFrame.startBefore ? filters.timeFrame.startBefore : ""
-        }
-        placeholderText="Projects Started Before"
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-        onChange={(date) => {
-          date && handleDate(date, "startBefore");
-        }}
-      ></DatePicker>
-      <DatePicker
-        value={filters.timeFrame.startAfter ? filters.timeFrame.startAfter : ""}
-        placeholderText="Projects Started After"
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-        onChange={(date) => {
-          date && handleDate(date, "startAfter");
-        }}
-      ></DatePicker>
-      <DatePicker
-        value={filters.timeFrame.endBefore ? filters.timeFrame.endBefore : ""}
-        placeholderText="Projects Completed Before"
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-        onChange={(date) => {
-          date && handleDate(date, "endBefore");
-        }}
-      ></DatePicker>
-      <DatePicker
-        value={filters.timeFrame.endAfter ? filters.timeFrame.endAfter : ""}
-        placeholderText="Projects Completed After"
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-        onChange={(date) => {
-          date && handleDate(date, "endAfter");
-        }}
-      ></DatePicker>
-      <p>Filter By Project Size</p>
-      <input
-        value={filters.projectSize.min ? filters.projectSize.min : ""}
-        type="number"
-        placeholder="Project Size Greater Than..."
-        onChange={(e) => handleProjectSize(e.target.value, "min")}
-      />
-      <input
-        value={filters.projectSize.max ? filters.projectSize.max : ""}
-        type="number"
-        placeholder="Project Size Smaller Than..."
-        onChange={(e) => handleProjectSize(e.target.value, "max")}
-      />
-      <button onClick={handleClear}>Clear Filters</button>
-    </div>
+        <section className="filterContainer">
+          <p>Filter By Client</p>
+          <select
+            className="filterInput"
+            name="clients"
+            value={filters.clients ? filters.clients : ""}
+            placeholder={"Select Client"}
+            onChange={(e) => handleSelectChange(e)}
+          >
+            <option value="All">All Clients</option>
+            {clientList.map((client) => (
+              <option value={client.id} key={client.id}>
+                {client.name}
+              </option>
+            ))}
+          </select>
+        </section>
+        <section className="filterContainer">
+          <p>Filter By Employee(s)</p>
+          <select
+            className="filterInput"
+            value={
+              filters.employees.length > 0
+                ? filters.employees[filters.employees.length - 1]
+                : ""
+            }
+            name="employees"
+            placeholder={"Select Employee(s)"}
+            onChange={(e) => handleSelectChange(e)}
+          >
+            <option value="All">All Employees</option>
+            {employeeList.map((employee) => (
+              <option value={employee.id} key={employee.id}>
+                {employee.name}
+              </option>
+            ))}
+          </select>
+          {filters.employees.length > 0 && (
+            <div>
+              {filters.employees.map((employee) => (
+                <p className="employeeFilterList" key={employee}>
+                  {getNameOfEmployee(employee, employeeList)}
+                </p>
+              ))}
+            </div>
+          )}
+        </section>
+        <section className="filterContainer">
+          <p>Filter By Project Size</p>
+          <input
+            className="filterInput"
+            value={filters.projectSize.min ? filters.projectSize.min : ""}
+            type="number"
+            placeholder="Project Size Greater Than..."
+            onChange={(e) => handleProjectSize(e.target.value, "min")}
+          />
+          <input
+            className="filterInput"
+            value={filters.projectSize.max ? filters.projectSize.max : ""}
+            type="number"
+            placeholder="Project Size Smaller Than..."
+            onChange={(e) => handleProjectSize(e.target.value, "max")}
+          />
+        </section>
+        <section className="filterContainer">
+          <p>Filter By Date(s)</p>
+          <DatePicker
+            className="filterInput"
+            value={
+              filters.timeFrame.startBefore ? filters.timeFrame.startBefore : ""
+            }
+            placeholderText="Projects Started Before"
+            peekNextMonth
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
+            onChange={(date) => {
+              date && handleDate(date, "startBefore");
+            }}
+          ></DatePicker>
+          <DatePicker
+            className="filterInput"
+            value={
+              filters.timeFrame.startAfter ? filters.timeFrame.startAfter : ""
+            }
+            placeholderText="Projects Started After"
+            peekNextMonth
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
+            onChange={(date) => {
+              date && handleDate(date, "startAfter");
+            }}
+          ></DatePicker>
+          <DatePicker
+            className="filterInput"
+            value={
+              filters.timeFrame.endBefore ? filters.timeFrame.endBefore : ""
+            }
+            placeholderText="Projects Completed Before"
+            peekNextMonth
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
+            onChange={(date) => {
+              date && handleDate(date, "endBefore");
+            }}
+          ></DatePicker>
+          <DatePicker
+            className="filterInput"
+            value={filters.timeFrame.endAfter ? filters.timeFrame.endAfter : ""}
+            placeholderText="Projects Completed After"
+            peekNextMonth
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
+            onChange={(date) => {
+              date && handleDate(date, "endAfter");
+            }}
+          ></DatePicker>
+        </section>
+      </div>
+    </>
   );
 }
