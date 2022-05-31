@@ -80,7 +80,7 @@ function matchEmployeeNamesToIds(
  * @returns name matching ID or "name not in employee list"
  */
 
-function getNameOfEmployee(
+export function getNameOfEmployee(
   id: string,
   employeeList: fullEmployeeInterface[]
 ): string {

@@ -35,11 +35,11 @@ export type State = {
 export type Action =
   | { type: "request" }
   | {
-    type: "success";
-    projects: fullProjectInterface[];
-    clients: fullClientInterface[];
-    employees: fullEmployeeInterface[];
-  }
+      type: "success";
+      projects: fullProjectInterface[];
+      clients: fullClientInterface[];
+      employees: fullEmployeeInterface[];
+    }
   | { type: "set-filters"; results: State["filters"] };
 
 const projectDataReducer = (state: State, action: Action): State => {
