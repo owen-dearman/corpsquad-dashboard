@@ -37,7 +37,11 @@ export function MainDashboard({
         dispatch={dispatch}
         filters={filters}
       />
-      <StatisticsOverview projects={projectData} />
+      <StatisticsOverview
+        projects={projectData}
+        clients={clientList}
+        employees={employeeList}
+      />
       <h2 style={{ textAlign: "center" }}>
         Showing {projectList.length} Projects:
       </h2>

@@ -5,6 +5,7 @@ import {
 } from "../../utils/interfaces";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { getNameOfEmployee } from "../../utils/addClientsAndEmployeesToProjects";
 
 interface FilterBarProps {
   clientList: fullClientInterface[];
@@ -21,10 +22,6 @@ export function FilterBar({
 }: FilterBarProps): JSX.Element {
   employeeList = employeeList.sort((a, b) => a.name.localeCompare(b.name));
   clientList = clientList.sort((a, b) => a.name.localeCompare(b.name));
-
-  function handleSubmit() {
-    dispatch({ type: "set-filters", results: filters });
-  }
 
   function handleClear() {
     const emptyFilters = {
@@ -47,15 +44,27 @@ export function FilterBar({
     const { name, value } = event.target;
     if (name === "clients") {
       if (value === "All") {
-        filters.clients = null;
+        dispatch({
+          type: "set-filters",
+          results: { ...filters, clients: null },
+        });
       } else {
-        filters.clients = value;
+        dispatch({
+          type: "set-filters",
+          results: { ...filters, clients: value },
+        });
       }
     } else if (name === "employees") {
       if (value === "All") {
-        filters.employees = [];
+        dispatch({
+          type: "set-filters",
+          results: { ...filters, employees: [] },
+        });
       } else {
-        filters.employees.push(value);
+        dispatch({
+          type: "set-filters",
+          results: { ...filters, employees: [...filters.employees, value] },
+        });
       }
     }
   }
@@ -65,131 +74,165 @@ export function FilterBar({
   function handleDate(date: Date, dateClass: DateClass) {
     const formattedDate = date.toString().substring(0, 15);
     if (dateClass === "startBefore") {
-      filters.timeFrame.startBefore = formattedDate;
+      dispatch({
+        type: "set-filters",
+        results: {
+          ...filters,
+          timeFrame: { ...filters.timeFrame, startBefore: formattedDate },
+        },
+      });
     } else if (dateClass === "startAfter") {
-      filters.timeFrame.startAfter = formattedDate;
+      dispatch({
+        type: "set-filters",
+        results: {
+          ...filters,
+          timeFrame: { ...filters.timeFrame, startAfter: formattedDate },
+        },
+      });
     } else if (dateClass === "endBefore") {
-      filters.timeFrame.endBefore = formattedDate;
+      dispatch({
+        type: "set-filters",
+        results: {
+          ...filters,
+          timeFrame: { ...filters.timeFrame, endBefore: formattedDate },
+        },
+      });
     } else {
-      filters.timeFrame.endAfter = formattedDate;
+      dispatch({
+        type: "set-filters",
+        results: {
+          ...filters,
+          timeFrame: { ...filters.timeFrame, endAfter: formattedDate },
+        },
+      });
     }
   }
 
   function handleProjectSize(input: string, sizeClass: string) {
     if (sizeClass === "min") {
-      filters.projectSize.min = input;
+      dispatch({
+        type: "set-filters",
+        results: {
+          ...filters,
+          projectSize: { ...filters.projectSize, min: input },
+        },
+      });
     } else if (sizeClass === "max") {
-      filters.projectSize.max = input;
+      dispatch({
+        type: "set-filters",
+        results: {
+          ...filters,
+          projectSize: { ...filters.projectSize, max: input },
+        },
+      });
     }
   }
 
   return (
     <div>
+      <p>Filter By Client</p>
       <select
         name="clients"
         defaultValue={"All"}
-        placeholder={"Filter By Client"}
+        value={filters.clients ? filters.clients : ""}
+        placeholder={"Select Client"}
         onChange={(e) => handleSelectChange(e)}
       >
-        <option>All</option>
+        <option value="All">All Clients</option>
         {clientList.map((client) => (
           <option value={client.id} key={client.id}>
             {client.name}
           </option>
         ))}
       </select>
+      <p>Filter By Employee</p>
       <select
         defaultValue={"All"}
+        value={
+          filters.employees.length > 0
+            ? filters.employees[filters.employees.length - 1]
+            : ""
+        }
         name="employees"
-        placeholder={"Filter By Employee"}
+        placeholder={"Select Employee(s)"}
         onChange={(e) => handleSelectChange(e)}
       >
-        <option>All</option>
+        <option value="All">All Employees</option>
         {employeeList.map((employee) => (
           <option value={employee.id} key={employee.id}>
             {employee.name}
           </option>
         ))}
       </select>
+      {filters.employees.length > 0 && (
+        <div>
+          Employees:{" "}
+          {filters.employees.map((employee) => (
+            <p key={employee}>{getNameOfEmployee(employee, employeeList)}</p>
+          ))}
+        </div>
+      )}
+      <p>Filter By Date</p>
       <DatePicker
+        value={
+          filters.timeFrame.startBefore ? filters.timeFrame.startBefore : ""
+        }
         placeholderText="Projects Started Before"
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
         onChange={(date) => {
           date && handleDate(date, "startBefore");
         }}
       ></DatePicker>
       <DatePicker
+        value={filters.timeFrame.startAfter ? filters.timeFrame.startAfter : ""}
         placeholderText="Projects Started After"
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
         onChange={(date) => {
           date && handleDate(date, "startAfter");
         }}
       ></DatePicker>
       <DatePicker
+        value={filters.timeFrame.endBefore ? filters.timeFrame.endBefore : ""}
         placeholderText="Projects Completed Before"
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
         onChange={(date) => {
           date && handleDate(date, "endBefore");
         }}
       ></DatePicker>
       <DatePicker
+        value={filters.timeFrame.endAfter ? filters.timeFrame.endAfter : ""}
         placeholderText="Projects Completed After"
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
         onChange={(date) => {
           date && handleDate(date, "endAfter");
         }}
       ></DatePicker>
+      <p>Filter By Project Size</p>
       <input
+        value={filters.projectSize.min ? filters.projectSize.min : ""}
         type="number"
         placeholder="Project Size Greater Than..."
         onChange={(e) => handleProjectSize(e.target.value, "min")}
       />
       <input
+        value={filters.projectSize.max ? filters.projectSize.max : ""}
         type="number"
         placeholder="Project Size Smaller Than..."
         onChange={(e) => handleProjectSize(e.target.value, "max")}
       />
-      <button onClick={handleSubmit}>Apply Filters</button>
       <button onClick={handleClear}>Clear Filters</button>
-      <h4>Active Filters:</h4>
-      {filters.clients && (
-        <p key={filters.clients}>Client: {filters.clients}</p>
-      )}
-      {filters.employees.length > 0 && (
-        <div>
-          Employees:{" "}
-          {filters.employees.map((employee) => (
-            <p key={employee}>{employee}</p>
-          ))}
-        </div>
-      )}
-      {filters.timeFrame.startBefore !== null && (
-        <p>Projects Starting Before: {filters.timeFrame.startBefore}</p>
-      )}
-      {filters.timeFrame.startAfter !== null && (
-        <p>Projects Starting After: {filters.timeFrame.startAfter}</p>
-      )}
-      {filters.timeFrame.endBefore !== null && (
-        <p>Projects Ending Before: {filters.timeFrame.endBefore}</p>
-      )}
-      {filters.timeFrame.endAfter !== null && (
-        <p>Projects Ending After: {filters.timeFrame.endAfter}</p>
-      )}
-      {filters.projectSize.min && (
-        <p>
-          Project Size {">"} £{filters.projectSize.min}
-        </p>
-      )}
-      {filters.projectSize.max && (
-        <p>
-          Project Size {"<"} £{filters.projectSize.max}
-        </p>
-      )}
     </div>
   );
 }
-
-/*
-  filters?: {
-    projectSize: { min: null; max: null };
-    clients: [];
-    employees: [];
-    timeFrame: { start: null; end: null };
-  };
-*/
