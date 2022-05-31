@@ -11,7 +11,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { addClientsAndEmployeesToProjects } from "./utils/addClientsAndEmployeesToProjects";
 import { EmployeeDashboard } from "./components/EmployeeDashboard";
 import { ClientDashboard } from "./components/ClientDashboard";
-import { applyFilters } from "./utils/applyFilters";
 import { fetchListOfClients } from "./utils/fetchListOfClients";
 import { fetchListOfEmployees } from "./utils/fetchListOfEmployees";
 
@@ -36,7 +35,6 @@ export type Action =
       clients: fullClientInterface[];
       employees: fullEmployeeInterface[];
     }
-  | { type: "apply-filters" }
   | { type: "set-filters"; results: State["filters"] };
 
 function App(): JSX.Element {
@@ -60,12 +58,6 @@ function App(): JSX.Element {
           ...state,
           isLoading: false,
           filters: action.results,
-        };
-      case "apply-filters":
-        return {
-          ...state,
-          isLoading: false,
-          projectData: applyFilters(state.projectData, state.filters),
         };
     }
   };
