@@ -5,6 +5,57 @@ import {
 } from "../../utils/interfaces";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useReducer } from "react";
+import { formatProjectSize } from "../../utils/formatProjectSize";
+
+export type FilterState = {
+  projectSize: { min: null | string; max: null | string };
+  clients: string | null;
+  employees: string[];
+  timeFrame: {
+    startBefore: null | string;
+    startAfter: null | string;
+    endBefore: null | string;
+    endAfter: null | string;
+  };
+}
+
+export type FilterAction = { type: "set-client", clients: string | null }
+  | { type: "set-employees", employees: string[] }
+  | { type: "set-project-size", projectSize: { min: null | string; max: null | string }; }
+  | {
+    type: "set-timeFrame", timeFrame: {
+      startBefore: null | string;
+      startAfter: null | string;
+      endBefore: null | string;
+      endAfter: null | string;
+    }
+  }
+
+const FilterReducerFunction = (state: FilterState, action: FilterAction): FilterState => {
+  switch (action.type) {
+    case "set-client":
+      return {
+        ...state,
+        clients: action.clients
+      };
+    case "set-employees":
+      return {
+        ...state,
+        employees: action.employees
+      };
+    case "set-project-size":
+      return {
+        ...state,
+        projectSize: action.projectSize
+      }
+    case "set-timeFrame":
+      return {
+        ...state,
+        timeFrame: action.timeFrame
+      }
+  }
+}
 
 interface FilterBarProps {
   clientList: fullClientInterface[];
@@ -19,14 +70,30 @@ export function FilterBar({
   dispatch,
   filters,
 }: FilterBarProps): JSX.Element {
+
+  const [{ projectSize, clients, employees, timeFrame }, filterDispatch] = useReducer(FilterReducerFunction, filters)
+
   employeeList = employeeList.sort((a, b) => a.name.localeCompare(b.name));
   clientList = clientList.sort((a, b) => a.name.localeCompare(b.name));
 
   function handleSubmit() {
-    dispatch({ type: "set-filters", results: filters });
+    const updatedFilters = { projectSize: projectSize, clients: clients, employees: employees, timeFrame: timeFrame }
+    dispatch({ type: "set-filters", results: updatedFilters });
   }
 
+
   function handleClear() {
+    dispatch({ type: "set-filters", results: { ...filters, clients: null } })
+    filterDispatch({ type: "set-employees", employees: [] })
+    filterDispatch({ type: "set-project-size", projectSize: { min: null, max: null } })
+    filterDispatch({
+      type: "set-timeFrame", timeFrame: {
+        startBefore: null,
+        startAfter: null,
+        endBefore: null,
+        endAfter: null,
+      }
+    })
     const emptyFilters = {
       projectSize: { min: null, max: null },
       clients: null,
@@ -47,15 +114,15 @@ export function FilterBar({
     const { name, value } = event.target;
     if (name === "clients") {
       if (value === "All") {
-        filters.clients = null;
+        dispatch({ type: "set-filters", results: { ...filters, clients: null } })
       } else {
-        filters.clients = value;
+        dispatch({ type: "set-filters", results: { ...filters, clients: value } })
       }
     } else if (name === "employees") {
       if (value === "All") {
-        filters.employees = [];
+        filterDispatch({ type: "set-employees", employees: [] })
       } else {
-        filters.employees.push(value);
+        filterDispatch({ type: "set-employees", employees: [...employees, value] })
       }
     }
   }
@@ -65,21 +132,21 @@ export function FilterBar({
   function handleDate(date: Date, dateClass: DateClass) {
     const formattedDate = date.toString().substring(0, 15);
     if (dateClass === "startBefore") {
-      filters.timeFrame.startBefore = formattedDate;
+      filterDispatch({ type: "set-timeFrame", timeFrame: { ...timeFrame, startBefore: formattedDate } })
     } else if (dateClass === "startAfter") {
-      filters.timeFrame.startAfter = formattedDate;
+      filterDispatch({ type: "set-timeFrame", timeFrame: { ...timeFrame, startAfter: formattedDate } })
     } else if (dateClass === "endBefore") {
-      filters.timeFrame.endBefore = formattedDate;
+      filterDispatch({ type: "set-timeFrame", timeFrame: { ...timeFrame, endBefore: formattedDate } })
     } else {
-      filters.timeFrame.endAfter = formattedDate;
+      filterDispatch({ type: "set-timeFrame", timeFrame: { ...timeFrame, endAfter: formattedDate } })
     }
   }
 
   function handleProjectSize(input: string, sizeClass: string) {
     if (sizeClass === "min") {
-      filters.projectSize.min = input;
+      filterDispatch({ type: "set-project-size", projectSize: { ...projectSize, min: input } })
     } else if (sizeClass === "max") {
-      filters.projectSize.max = input;
+      filterDispatch({ type: "set-project-size", projectSize: { ...projectSize, max: input } })
     }
   }
 
@@ -91,7 +158,7 @@ export function FilterBar({
         placeholder={"Filter By Client"}
         onChange={(e) => handleSelectChange(e)}
       >
-        <option>All</option>
+        <option value="All">All Clients</option>
         {clientList.map((client) => (
           <option value={client.id} key={client.id}>
             {client.name}
@@ -99,12 +166,12 @@ export function FilterBar({
         ))}
       </select>
       <select
-        defaultValue={"All"}
+        // defaultValue={"All"}
         name="employees"
         placeholder={"Filter By Employee"}
         onChange={(e) => handleSelectChange(e)}
       >
-        <option>All</option>
+        <option value="All">All Employees</option>
         {employeeList.map((employee) => (
           <option value={employee.id} key={employee.id}>
             {employee.name}
@@ -136,49 +203,51 @@ export function FilterBar({
         }}
       ></DatePicker>
       <input
+        value={projectSize.min ? projectSize.min : ""}
         type="number"
         placeholder="Project Size Greater Than..."
         onChange={(e) => handleProjectSize(e.target.value, "min")}
       />
       <input
+        value={projectSize.max ? projectSize.max : ""}
         type="number"
         placeholder="Project Size Smaller Than..."
         onChange={(e) => handleProjectSize(e.target.value, "max")}
       />
       <button onClick={handleSubmit}>Apply Filters</button>
       <button onClick={handleClear}>Clear Filters</button>
-      <h4>Active Filters:</h4>
+      <h4>Filters:</h4>
       {filters.clients && (
         <p key={filters.clients}>Client: {filters.clients}</p>
       )}
-      {filters.employees.length > 0 && (
+      {employees.length > 0 && (
         <div>
           Employees:{" "}
-          {filters.employees.map((employee) => (
+          {employees.map((employee) => (
             <p key={employee}>{employee}</p>
           ))}
         </div>
       )}
-      {filters.timeFrame.startBefore !== null && (
+      {filters.timeFrame.startBefore && (
         <p>Projects Starting Before: {filters.timeFrame.startBefore}</p>
       )}
-      {filters.timeFrame.startAfter !== null && (
+      {filters.timeFrame.startAfter && (
         <p>Projects Starting After: {filters.timeFrame.startAfter}</p>
       )}
-      {filters.timeFrame.endBefore !== null && (
+      {filters.timeFrame.endBefore && (
         <p>Projects Ending Before: {filters.timeFrame.endBefore}</p>
       )}
-      {filters.timeFrame.endAfter !== null && (
+      {filters.timeFrame.endAfter && (
         <p>Projects Ending After: {filters.timeFrame.endAfter}</p>
       )}
       {filters.projectSize.min && (
         <p>
-          Project Size {">"} £{filters.projectSize.min}
+          Project Size {">"} {formatProjectSize(filters.projectSize.min)}
         </p>
       )}
       {filters.projectSize.max && (
         <p>
-          Project Size {"<"} £{filters.projectSize.max}
+          Project Size {"<"} {formatProjectSize(filters.projectSize.max)}
         </p>
       )}
     </div>

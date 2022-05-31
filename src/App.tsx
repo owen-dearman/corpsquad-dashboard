@@ -35,38 +35,38 @@ export type State = {
 export type Action =
   | { type: "request" }
   | {
-      type: "success";
-      projects: fullProjectInterface[];
-      clients: fullClientInterface[];
-      employees: fullEmployeeInterface[];
-    }
+    type: "success";
+    projects: fullProjectInterface[];
+    clients: fullClientInterface[];
+    employees: fullEmployeeInterface[];
+  }
   | { type: "set-filters"; results: State["filters"] };
 
-function App(): JSX.Element {
-  const projectDataReducer = (state: State, action: Action): State => {
-    switch (action.type) {
-      case "request":
-        return {
-          ...state,
-          isLoading: true,
-        };
-      case "success":
-        return {
-          ...state,
-          isLoading: false,
-          projectData: action.projects,
-          clientList: action.clients,
-          employeeList: action.employees,
-        };
-      case "set-filters":
-        return {
-          ...state,
-          isLoading: false,
-          filters: action.results,
-        };
-    }
-  };
+const projectDataReducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "request":
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "success":
+      return {
+        ...state,
+        isLoading: false,
+        projectData: action.projects,
+        clientList: action.clients,
+        employeeList: action.employees,
+      };
+    case "set-filters":
+      return {
+        ...state,
+        isLoading: false,
+        filters: action.results,
+      };
+  }
+};
 
+function App(): JSX.Element {
   const [
     { projectData, clientList, employeeList, isLoading, filters },
     dispatch,

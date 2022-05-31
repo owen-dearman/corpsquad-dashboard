@@ -2,15 +2,6 @@ import { State } from "../App";
 import { convertDateToComparable } from "./convertDateToComparable";
 import { fullProjectInterface } from "./interfaces";
 
-/*
-  filters?: {
-    projectSize: { min: null; max: null };
-    clients: [];
-    employees: [];
-    timeFrame: { start: null; end: null };
-  };
-*/
-
 export function applyFilters(
   projectData: fullProjectInterface[],
   filters: State["filters"]
