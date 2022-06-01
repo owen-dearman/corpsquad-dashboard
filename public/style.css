@@ -94,7 +94,6 @@ li {
 
 .navLink {
     color: black;
-    font-size: 18px;
 }
 
 
@@ -189,6 +188,7 @@ li {
 
 .employeeTag {
     padding: 0% 1%;
+    font-size: large;
 }
 
 .subtitle {
@@ -228,6 +228,11 @@ li {
         background-color: black;
         color: antiquewhite;
         font-size: 25px
+    }
+
+    .employeeTag {
+        padding: 0% 1%;
+        font-size: medium;
     }
 }
 
@@ -269,6 +274,11 @@ li {
         justify-content: flex-start;
         align-items: center;
         flex-wrap: nowrap
+    }
+
+    .employeeTag {
+        padding: 0% 3%;
+        font-size: small;
     }
 
 }

@@ -47,11 +47,11 @@ export function ClientDashboard({
     employeeList
   ).sort((a, b) => a.name.localeCompare(b.name));
   const employeesForClient = employees.map((em) => (
-    <p className="employeeTag" key={em.id}>
+    <h3 className="employeeTag" key={em.id}>
       <Link className="navLink" to={`/employees/${em.id}`}>
         {em.name}
       </Link>
-    </p>
+    </h3>
   ));
 
   const totalRevenue = getTotalRevenue(clientProjects);
