@@ -16,6 +16,7 @@ import { EmployeeDashboard } from "./components/EmployeeDashboard";
 import { ClientDashboard } from "./components/ClientDashboard";
 import { fetchListOfClients } from "./utils/fetchListOfClients";
 import { fetchListOfEmployees } from "./utils/fetchListOfEmployees";
+import { convertDateToComparable } from "./utils/convertDateToComparable";
 
 export type State = {
   projectData: fullProjectInterface[];
@@ -86,7 +87,7 @@ function App(): JSX.Element {
     projectData: [],
     clientList: [],
     employeeList: [],
-    activeSort: "sizeDescending",
+    activeSort: "endDateDescending",
     filters: {
       projectSize: { min: null, max: null },
       clients: null,
@@ -119,7 +120,9 @@ function App(): JSX.Element {
       dispatch({
         type: "success",
         projects: fullProjectList.sort(
-          (a, b) => parseInt(b.contract.size) - parseInt(a.contract.size)
+          (a, b) =>
+            parseInt(convertDateToComparable(b.contract.endDate)) -
+            parseInt(convertDateToComparable(a.contract.endDate))
         ),
         clients: clients,
         employees: employees,
