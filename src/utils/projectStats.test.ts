@@ -1,4 +1,5 @@
 import { getAverageRevenue, getTotalRevenue } from "./projectStats";
+import { expect } from "@jest/globals";
 
 const testData = [
   {
