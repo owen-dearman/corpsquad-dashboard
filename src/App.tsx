@@ -158,7 +158,12 @@ function App(): JSX.Element {
             />
             <Route
               path="/clients/:clientId"
-              element={<ClientDashboard projectData={projectData} />}
+              element={
+                <ClientDashboard
+                  projectData={projectData}
+                  employeeList={employeeList}
+                />
+              }
             />
           </Routes>
         )}

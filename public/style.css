@@ -177,3 +177,20 @@ li {
     font-size: 15px;
     margin-bottom: -5px;
 }
+
+.employeeListContainer {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.employeeTag {
+    padding: 0% 1%;
+}
+
+.subtitle {
+    margin-left: 10px;
+    font-size: 30px;
+}
