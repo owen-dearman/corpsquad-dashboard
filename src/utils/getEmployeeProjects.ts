@@ -1,4 +1,12 @@
+import { idMatch } from "./getClientProjects";
 import { fullProjectInterface } from "./interfaces";
+
+/**
+ *
+ * @param projectList list of projects
+ * @param id employee ID
+ * @returns list of projects that employee worked on
+ */
 
 export function getEmployeeProjects(
   projectList: fullProjectInterface[],
@@ -12,8 +20,4 @@ export function getEmployeeProjects(
     }
     return false;
   });
-}
-
-function idMatch(id1: string, id2: string) {
-  return id1 === id2;
 }

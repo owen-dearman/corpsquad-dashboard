@@ -41,10 +41,10 @@ export function addClientsAndEmployeesToProjects(
  * @returns object containing ID from project and matching name or default
  */
 
-function matchClientNameToId(
+export function matchClientNameToId(
   clientId: string,
   clientDatabase: fullClientInterface[]
-) {
+): fullClientInterface {
   let clientName: fullClientInterface | undefined = clientDatabase.find(
     (client: fullClientInterface) => clientId === client.id
   );
@@ -61,7 +61,7 @@ function matchClientNameToId(
  * @returns array of employee names and IDs from the project
  */
 
-function matchEmployeeNamesToIds(
+export function matchEmployeeNamesToIds(
   employeeIds: string[],
   employeeList: fullEmployeeInterface[]
 ): fullEmployeeInterface[] {

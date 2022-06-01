@@ -1,6 +1,13 @@
 import { getNameOfEmployee } from "./addClientsAndEmployeesToProjects";
 import { fullEmployeeInterface, fullProjectInterface } from "./interfaces";
 
+/**
+ *
+ * @param clientProjects list of client projects
+ * @param employeeList database of employees
+ * @returns array of employees that worked on client projects
+ */
+
 export function getEmployeesForThisClient(
   clientProjects: fullProjectInterface[],
   employeeList: fullEmployeeInterface[]
@@ -21,6 +28,13 @@ export function getEmployeesForThisClient(
   }
   return clientEmployees;
 }
+
+/**
+ *
+ * @param employeeID employee ID from project
+ * @param employeeStore array of stored employee IDS
+ * @returns pushes ID to store if not already in there
+ */
 
 function addEmployee(employeeID: string, employeeStore: string[]) {
   if (employeeStore.includes(employeeID)) {

@@ -1,6 +1,12 @@
 const zeroPad = (num: string, places: number) =>
   String(num).padStart(places, "0");
 
+/**
+ *
+ * @param date string date
+ * @returns string of comaparble numerals "YYYYMMDD"
+ */
+
 export function convertDateToComparable(date: string): string {
   const months = [
     "Jan",

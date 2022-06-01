@@ -2,6 +2,13 @@ import { State } from "../App";
 import { convertDateToComparable } from "./convertDateToComparable";
 import { fullProjectInterface } from "./interfaces";
 
+/**
+ *
+ * @param projectData The array of full project information
+ * @param filters and object containing filter parameters
+ * @returns filtered project data
+ */
+
 export function applyFilters(
   projectData: fullProjectInterface[],
   filters: State["filters"]
@@ -12,6 +19,13 @@ export function applyFilters(
   projectData = filterDates(projectData, filters.timeFrame);
   return projectData;
 }
+
+/**
+ *
+ * @param data the project data
+ * @param filters the filters
+ * @returns filtered project data
+ */
 
 function filterProjectSize(
   data: fullProjectInterface[],
@@ -28,6 +42,13 @@ function filterProjectSize(
   return data;
 }
 
+/**
+ *
+ * @param data the project data
+ * @param filters the filters
+ * @returns filtered project data
+ */
+
 function filterClient(
   data: fullProjectInterface[],
   clientIdFilter: string | null
@@ -37,6 +58,13 @@ function filterClient(
   }
   return data.filter((proj) => clientIdFilter.includes(proj.client.id));
 }
+
+/**
+ *
+ * @param data the project data
+ * @param filters the filters
+ * @returns filtered project data
+ */
 
 function filterEmployee(
   data: fullProjectInterface[],
@@ -57,6 +85,13 @@ function filterEmployee(
   }
   return projectList;
 }
+
+/**
+ *
+ * @param data the project data
+ * @param filters the filters
+ * @returns filtered project data
+ */
 
 function filterDates(
   data: fullProjectInterface[],
