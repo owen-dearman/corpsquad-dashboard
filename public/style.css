@@ -168,6 +168,11 @@ li {
     width: auto;
 }
 
+.filterInputDisabled {
+    background-color: rgb(255, 0, 0);
+    width: auto;
+}
+
 .employeeFilterList {
     font-size: 15px;
     margin-bottom: -5px;

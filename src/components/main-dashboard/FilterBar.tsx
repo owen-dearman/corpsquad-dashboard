@@ -3,9 +3,9 @@ import {
   fullClientInterface,
   fullEmployeeInterface,
 } from "../../utils/interfaces";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { getNameOfEmployee } from "../../utils/addClientsAndEmployeesToProjects";
+import { FilterByDate } from "./FilterByDate";
+import { FilterByProjectSize } from "./FilterByProjectSize";
 
 interface FilterBarProps {
   clientList: fullClientInterface[];
@@ -69,75 +69,17 @@ export function FilterBar({
     }
   }
 
-  type DateClass = "startBefore" | "startAfter" | "endBefore" | "endAfter";
-
-  function handleDate(date: Date, dateClass: DateClass) {
-    const formattedDate = date.toString().substring(0, 15);
-    if (dateClass === "startBefore") {
-      dispatch({
-        type: "set-filters",
-        results: {
-          ...filters,
-          timeFrame: { ...filters.timeFrame, startBefore: formattedDate },
-        },
-      });
-    } else if (dateClass === "startAfter") {
-      dispatch({
-        type: "set-filters",
-        results: {
-          ...filters,
-          timeFrame: { ...filters.timeFrame, startAfter: formattedDate },
-        },
-      });
-    } else if (dateClass === "endBefore") {
-      dispatch({
-        type: "set-filters",
-        results: {
-          ...filters,
-          timeFrame: { ...filters.timeFrame, endBefore: formattedDate },
-        },
-      });
-    } else {
-      dispatch({
-        type: "set-filters",
-        results: {
-          ...filters,
-          timeFrame: { ...filters.timeFrame, endAfter: formattedDate },
-        },
-      });
-    }
-  }
-
-  function handleProjectSize(input: string, sizeClass: string) {
-    if (sizeClass === "min") {
-      dispatch({
-        type: "set-filters",
-        results: {
-          ...filters,
-          projectSize: { ...filters.projectSize, min: input },
-        },
-      });
-    } else if (sizeClass === "max") {
-      dispatch({
-        type: "set-filters",
-        results: {
-          ...filters,
-          projectSize: { ...filters.projectSize, max: input },
-        },
-      });
-    }
-  }
-
   return (
     <>
       <div className="filterStyling">
-        <div className="clearButtonContainer">
+        <div className="filterContainer">
+          <p>Filter</p>
           <button className="clearButton" onClick={handleClear}>
             Clear Filters
           </button>
         </div>
         <section className="filterContainer">
-          <p>Filter By Client</p>
+          <p>By Client</p>
           <select
             className="filterInput"
             name="clients"
@@ -154,7 +96,7 @@ export function FilterBar({
           </select>
         </section>
         <section className="filterContainer">
-          <p>Filter By Employee(s)</p>
+          <p>By Employee(s)</p>
           <select
             className="filterInput"
             value={
@@ -184,78 +126,12 @@ export function FilterBar({
           )}
         </section>
         <section className="filterContainer">
-          <p>Filter By Project Size</p>
-          <input
-            className="filterInput"
-            value={filters.projectSize.min ? filters.projectSize.min : ""}
-            type="number"
-            placeholder="Project Size Greater Than..."
-            onChange={(e) => handleProjectSize(e.target.value, "min")}
-          />
-          <input
-            className="filterInput"
-            value={filters.projectSize.max ? filters.projectSize.max : ""}
-            type="number"
-            placeholder="Project Size Smaller Than..."
-            onChange={(e) => handleProjectSize(e.target.value, "max")}
-          />
+          <p>By Project Size</p>
+          <FilterByProjectSize filters={filters} dispatch={dispatch} />
         </section>
         <section className="filterContainer">
-          <p>Filter By Date(s)</p>
-          <DatePicker
-            className="filterInput"
-            value={
-              filters.timeFrame.startBefore ? filters.timeFrame.startBefore : ""
-            }
-            placeholderText="Projects Started Before"
-            peekNextMonth
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            onChange={(date) => {
-              date && handleDate(date, "startBefore");
-            }}
-          ></DatePicker>
-          <DatePicker
-            className="filterInput"
-            value={
-              filters.timeFrame.startAfter ? filters.timeFrame.startAfter : ""
-            }
-            placeholderText="Projects Started After"
-            peekNextMonth
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            onChange={(date) => {
-              date && handleDate(date, "startAfter");
-            }}
-          ></DatePicker>
-          <DatePicker
-            className="filterInput"
-            value={
-              filters.timeFrame.endBefore ? filters.timeFrame.endBefore : ""
-            }
-            placeholderText="Projects Completed Before"
-            peekNextMonth
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            onChange={(date) => {
-              date && handleDate(date, "endBefore");
-            }}
-          ></DatePicker>
-          <DatePicker
-            className="filterInput"
-            value={filters.timeFrame.endAfter ? filters.timeFrame.endAfter : ""}
-            placeholderText="Projects Completed After"
-            peekNextMonth
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            onChange={(date) => {
-              date && handleDate(date, "endAfter");
-            }}
-          ></DatePicker>
+          <p>By Date(s)</p>
+          <FilterByDate filters={filters} dispatch={dispatch} />
         </section>
       </div>
     </>
