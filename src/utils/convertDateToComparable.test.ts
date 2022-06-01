@@ -1,4 +1,5 @@
 import { convertDateToComparable } from "./convertDateToComparable";
+import { expect } from "@jest/globals";
 
 describe("suite of tests for convertDateToComparable()", () => {
   test("should return comparable dates", () => {
