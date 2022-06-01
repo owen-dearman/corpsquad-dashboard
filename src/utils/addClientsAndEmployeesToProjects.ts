@@ -45,13 +45,13 @@ export function matchClientNameToId(
   clientId: string,
   clientDatabase: fullClientInterface[]
 ): fullClientInterface {
-  let clientName: fullClientInterface | undefined = clientDatabase.find(
+  let clientDetails: fullClientInterface | undefined = clientDatabase.find(
     (client: fullClientInterface) => clientId === client.id
   );
-  if (!clientName) {
-    clientName = { id: clientId, name: "No Client In Register" };
+  if (!clientDetails) {
+    clientDetails = { id: clientId, name: "No Client In Register" };
   }
-  return clientName;
+  return clientDetails;
 }
 
 /**

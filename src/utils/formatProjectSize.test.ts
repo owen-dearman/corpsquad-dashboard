@@ -1,4 +1,5 @@
 import { formatProjectSize } from "./formatProjectSize";
+import { expect } from "@jest/globals";
 
 describe("suite of tests for formatProjectSize()", () => {
   test("numbers should be formatted", () => {

@@ -10,6 +10,7 @@ import {
   fullProjectInterface,
   projectInterface,
 } from "./interfaces";
+import { expect } from "@jest/globals";
 
 const projects: projectInterface[] = [
   {

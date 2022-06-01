@@ -27,11 +27,11 @@ export function SingleProject({ data }: SingleProjectProps): JSX.Element {
         <>
           <h3>Employees: {data.employees.length}</h3>
           <div className="employeeList">
-            {employeeList.map((em) => (
-              <li key={em.id}>
-                <strong>{em.name}</strong>{" "}
-                <Link className="navLink" to={`/employees/${em.id}`}>
-                  {em.id}
+            {employeeList.map((employee) => (
+              <li key={employee.id}>
+                <strong>{employee.name}</strong>{" "}
+                <Link className="navLink" to={`/employees/${employee.id}`}>
+                  {employee.id}
                 </Link>
               </li>
             ))}

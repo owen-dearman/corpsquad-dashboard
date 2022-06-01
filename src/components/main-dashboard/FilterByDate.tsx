@@ -7,12 +7,12 @@ interface FilterByDateProps {
   dispatch: React.Dispatch<Action>;
 }
 
+type DateClass = "startBefore" | "startAfter" | "endBefore" | "endAfter";
+
 export function FilterByDate({
   filters,
   dispatch,
 }: FilterByDateProps): JSX.Element {
-  type DateClass = "startBefore" | "startAfter" | "endBefore" | "endAfter";
-
   function handleDate(date: Date, dateClass: DateClass) {
     const formattedDate = date.toString().substring(0, 15);
     if (dateClass === "startBefore") {
@@ -50,6 +50,7 @@ export function FilterByDate({
     }
   }
 
+  //conditional rendering of datepickers depending on whether their opposite has been activated
   return (
     <>
       {!filters.timeFrame.startAfter ? (

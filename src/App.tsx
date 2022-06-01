@@ -26,7 +26,7 @@ export type State = {
   isLoading: boolean;
   filters: {
     projectSize: { min: null | string; max: null | string };
-    clients: string | null;
+    client: string | null;
     employees: string[];
     timeFrame: {
       startBefore: null | string;
@@ -90,7 +90,7 @@ function App(): JSX.Element {
     activeSort: "endDateDescending",
     filters: {
       projectSize: { min: null, max: null },
-      clients: null,
+      client: null,
       employees: [],
       timeFrame: {
         startBefore: null,
