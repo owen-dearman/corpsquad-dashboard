@@ -7,6 +7,10 @@ interface SingleProjectProps {
 }
 
 export function SingleProject({ data }: SingleProjectProps): JSX.Element {
+  const employeeList = data.employees.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
   return (
     <div className="singleProjectContainer">
       <h2>{data.id}</h2>
@@ -23,7 +27,7 @@ export function SingleProject({ data }: SingleProjectProps): JSX.Element {
         <>
           <h3>Employees: {data.employees.length}</h3>
           <div className="employeeList">
-            {data.employees.map((em) => (
+            {employeeList.map((em) => (
               <li key={em.id}>
                 <strong>{em.name}</strong>{" "}
                 <Link className="navLink" to={`/employees/${em.id}`}>
