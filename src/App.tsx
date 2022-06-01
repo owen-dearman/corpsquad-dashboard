@@ -102,8 +102,6 @@ function App(): JSX.Element {
     isLoading: false,
   });
 
-  //const [projectData, setProjectData] = useState<fullProjectInterface[]>([]);
-
   useEffect(() => {
     async function fetchProjects() {
       dispatch({ type: "request" });
