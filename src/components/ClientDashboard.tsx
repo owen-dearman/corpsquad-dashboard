@@ -25,9 +25,6 @@ export function ClientDashboard({
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [clientId]);
-
-  useEffect(() => {
     async function fetchClientData() {
       const response = await axios.get(
         `https://consulting-projects.academy-faculty.repl.co/api/clients/${clientId}`
@@ -46,10 +43,10 @@ export function ClientDashboard({
     clientProjects,
     employeeList
   ).sort((a, b) => a.name.localeCompare(b.name));
-  const employeesForClient = employees.map((em) => (
-    <h3 className="employeeTag" key={em.id}>
-      <Link className="navLink" to={`/employees/${em.id}`}>
-        {em.name}
+  const employeesForClient = employees.map((employee) => (
+    <h3 className="employeeTag" key={employee.id}>
+      <Link className="navLink" to={`/employees/${employee.id}`}>
+        {employee.name}
       </Link>
     </h3>
   ));

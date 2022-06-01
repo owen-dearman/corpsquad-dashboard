@@ -14,7 +14,7 @@ export function applyFilters(
   filters: State["filters"]
 ): fullProjectInterface[] {
   projectData = filterProjectSize(projectData, filters.projectSize);
-  projectData = filterClient(projectData, filters.clients);
+  projectData = filterClient(projectData, filters.client);
   projectData = filterEmployee(projectData, filters.employees);
   projectData = filterDates(projectData, filters.timeFrame);
   return projectData;

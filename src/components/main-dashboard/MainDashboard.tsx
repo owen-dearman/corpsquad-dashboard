@@ -40,6 +40,8 @@ export function MainDashboard({
     <SingleProject key={proj.id} data={proj} />
   ));
 
+  //sorted by end date descending as default
+
   function handleSort(sortClass: SortTypes) {
     switch (sortClass) {
       case "startDateAscending":

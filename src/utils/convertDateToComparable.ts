@@ -1,3 +1,10 @@
+/**
+ *
+ * @param num month number
+ * @param places how many long the string should be
+ * @returns zero-padded month
+ */
+
 const zeroPad = (num: string, places: number) =>
   String(num).padStart(places, "0");
 

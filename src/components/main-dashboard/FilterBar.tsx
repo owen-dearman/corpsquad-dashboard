@@ -26,7 +26,7 @@ export function FilterBar({
   function handleClear() {
     const emptyFilters = {
       projectSize: { min: null, max: null },
-      clients: null,
+      client: null,
       employees: [],
       timeFrame: {
         startBefore: null,
@@ -42,30 +42,34 @@ export function FilterBar({
     event: React.ChangeEvent<HTMLSelectElement>
   ): void {
     const { name, value } = event.target;
-    if (name === "clients") {
-      if (value === "All") {
-        dispatch({
-          type: "set-filters",
-          results: { ...filters, clients: null },
-        });
-      } else {
-        dispatch({
-          type: "set-filters",
-          results: { ...filters, clients: value },
-        });
-      }
-    } else if (name === "employees") {
-      if (value === "All") {
-        dispatch({
-          type: "set-filters",
-          results: { ...filters, employees: [] },
-        });
-      } else {
-        dispatch({
-          type: "set-filters",
-          results: { ...filters, employees: [...filters.employees, value] },
-        });
-      }
+
+    switch (name) {
+      case "clients":
+        if (value === "All") {
+          dispatch({
+            type: "set-filters",
+            results: { ...filters, client: null },
+          });
+        } else {
+          dispatch({
+            type: "set-filters",
+            results: { ...filters, client: value },
+          });
+        }
+        break;
+      case "employees":
+        if (value === "All") {
+          dispatch({
+            type: "set-filters",
+            results: { ...filters, employees: [] },
+          });
+        } else {
+          dispatch({
+            type: "set-filters",
+            results: { ...filters, employees: [...filters.employees, value] },
+          });
+        }
+        break;
     }
   }
 
@@ -83,7 +87,7 @@ export function FilterBar({
           <select
             className="filterInput"
             name="clients"
-            value={filters.clients ? filters.clients : ""}
+            value={filters.client ? filters.client : ""}
             placeholder={"Select Client"}
             onChange={(e) => handleSelectChange(e)}
           >
