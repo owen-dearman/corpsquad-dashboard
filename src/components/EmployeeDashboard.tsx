@@ -72,6 +72,7 @@ export function EmployeeDashboard({
           {formatProjectSize(averageRevenue.toFixed(2))}
         </h3>
       </section>
+      <h2 className="subtitle">Projects:</h2>
       <section className="projectListContainer">{projectList}</section>
     </div>
   );

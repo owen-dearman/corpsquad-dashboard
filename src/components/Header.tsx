@@ -7,8 +7,8 @@ export function Header(): JSX.Element {
       <h1>
         <em>CorpSquad Consultancy</em>
       </h1>
-      <h1>Dashboard</h1>
-      <p>{currentDate()}</p>
+      <h1 className="headerElement">Dashboard</h1>
+      <p className="headerElement">{currentDate()}</p>
       <Link className="homeButton" to={"/"}>
         Home
       </Link>

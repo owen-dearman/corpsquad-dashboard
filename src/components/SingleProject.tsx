@@ -13,7 +13,7 @@ export function SingleProject({ data }: SingleProjectProps): JSX.Element {
 
   return (
     <div className="singleProjectContainer">
-      <h2>{data.id}</h2>
+      <h2 className="projectTitle">{data.id}</h2>
       <h3>
         <strong>{data.client.name}</strong>
       </h3>
